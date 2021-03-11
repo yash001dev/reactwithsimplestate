@@ -15,6 +15,7 @@ const useEducation=(validationInfo)=>{
     const [open,setOpen]=useState(false)
     const [errors,setErrors]=useState({})
     const [isSubmitting,setIsSubmitting]=useState(false)
+    const [opens, setOpens] = useState(false);
 
     const handleChange=e=>{
         const {name,value}=e.target
@@ -28,11 +29,17 @@ const useEducation=(validationInfo)=>{
         e.preventDefault();
         setErrors(validateInfo(values));
         setIsSubmitting(true);
+        
         // setIsSubmitting(true)
         
     };
+
+    const handleDrawerClose=()=>setOpens(false);
+
     const handleClickOpen=()=>{
-        setOpen(true);
+
+        // setOpen(true);
+        setOpens(true);
     };
     const handleClose=()=>{
         setOpen(false);
@@ -44,6 +51,7 @@ const useEducation=(validationInfo)=>{
             setStoreValue(storeValue=>storeValue.concat(values))
             setIsSubmitting(false);
             setOpen(false);
+            setOpens(false);
         }
     })
 
@@ -51,7 +59,7 @@ const useEducation=(validationInfo)=>{
         console.log("ARRAY UPDATED:",storeValue)
     },[storeValue])
 
-    return {handleChange,values,errors,handleSubmit,open,handleClickOpen,handleClose,storeValue};
+    return {handleChange,values,errors,handleSubmit,open,opens,handleClickOpen,handleClose,handleDrawerClose,storeValue};
 
 }
 

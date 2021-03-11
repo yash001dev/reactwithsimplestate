@@ -1,5 +1,4 @@
 import {useState,useEffect} from 'react';
-import useUser from '../../stateUser';
 import { useHistory } from "react-router-dom";
 
 const useForm=(validateInfo1)=>{
