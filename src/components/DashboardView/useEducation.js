@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import validateInfo from './validateInfo';
 
-const useEducation=(validationInfo)=>{
+const useEducation=(validationInfo,detailsData)=>{
     const [values,setValue]=useState({
         firstName:'',
         lastName:'',
@@ -48,10 +48,13 @@ const useEducation=(validationInfo)=>{
     useEffect(()=>{
         if(Object.keys(errors).length===0 && isSubmitting){
             console.log("VALUE:",values)
-            setStoreValue(storeValue=>storeValue.concat(values))
+            // setStoreValue(storeValue=>storeValue.concat(values))
+            detailsData(values)
             setIsSubmitting(false);
-            setOpen(false);
+            // setOpen(false);
+            
             setOpens(false);
+
         }
     })
 

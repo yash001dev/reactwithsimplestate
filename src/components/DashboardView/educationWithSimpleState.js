@@ -25,11 +25,8 @@ import useEducation from "./useEducation";
 import validateInfo from "./validateInfo";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import { connect } from "react-redux";
+import { addDetails } from './../../redux/details/detail.actions';
 
 const drawerWidth = 440;
 
@@ -93,9 +90,9 @@ function PaperComponent(props) {
   );
 }
 
-export default function EducationWithSimpleState({ email }) {
+function EducationWithSimpleState({ details,detailsData }) {
   const classes = useStyles();
-  const data = JSON.parse(localStorage.getItem(email));
+  
   const {
     handleChange,
     values,
@@ -107,7 +104,7 @@ export default function EducationWithSimpleState({ email }) {
     handleClose,
     handleDrawerClose,
     storeValue,
-  } = useEducation(validateInfo);
+  } = useEducation(validateInfo,details);
   const theme = useTheme();
 
   return (
@@ -209,8 +206,8 @@ export default function EducationWithSimpleState({ email }) {
             </TableRow>
           </TableHead>
 
-          {storeValue.length > 0
-            ? storeValue.map((value) => (
+          {detailsData.length > 0
+            ? detailsData.map((value) => (
                 <TableRow key={value.email}>
                   <TableCell component="th" scope="row">
                     {value.email}
@@ -345,3 +342,13 @@ export default function EducationWithSimpleState({ email }) {
     </>
   );
 }
+
+const mapStateToProps=(state)=>({
+  detailsData:state.details.userDetails
+})
+
+const mapDispatchToProps=dispatch=>({
+  details:userDetails=>dispatch(addDetails(userDetails))
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(EducationWithSimpleState);
