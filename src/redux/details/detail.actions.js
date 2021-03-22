@@ -5,4 +5,16 @@ export const addDetails=(userDetails)=>({
     payload:userDetails
 });
 
+export const editDetails=(userDetails)=>({
+    type:DetailActionTypes.UPDATE_DETAILS,
+    payload:userDetails
+})
+
+export const deleteDetails=(userid)=>({
+    type:DetailActionTypes.DELETE_DETAILS,
+    payload:userid
+})
+
+
+
 

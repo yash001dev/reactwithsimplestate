@@ -26,7 +26,11 @@ import validateInfo from "./validateInfo";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { connect } from "react-redux";
-import { addDetails } from './../../redux/details/detail.actions';
+import { addDetails } from "./../../redux/details/detail.actions";
+import { editDetails } from "../../redux/details/details.utils";
+import { deleteDetails } from "./../../redux/details/details.utils";
+import { Delete, Update } from "@material-ui/icons";
+
 
 const drawerWidth = 440;
 
@@ -90,9 +94,14 @@ function PaperComponent(props) {
   );
 }
 
-function EducationWithSimpleState({ details,detailsData }) {
+function EducationWithSimpleState({
+  details,
+  detailsData,
+  editDetails,
+  deleteDetails,
+}) {
   const classes = useStyles();
-  
+
   const {
     handleChange,
     values,
@@ -104,13 +113,15 @@ function EducationWithSimpleState({ details,detailsData }) {
     handleClose,
     handleDrawerClose,
     storeValue,
-  } = useEducation(validateInfo,details);
+    deleteopen,
+    deleteHandleClickOpen,
+    deleteHandleClickClose,
+    handleDelete,
+  } = useEducation(validateInfo, details, editDetails, deleteDetails);
   const theme = useTheme();
 
   return (
     <>
-      {/* {console.log("DATA:",storeValue)} */}
-      {/* //Dialog Code */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -203,6 +214,7 @@ function EducationWithSimpleState({ details,detailsData }) {
               <TableCell align="right">Gender</TableCell>
               <TableCell align="right">Email</TableCell>
               <TableCell align="right">Phone Number</TableCell>
+              <TableCell align="right">Operations</TableCell>
             </TableRow>
           </TableHead>
 
@@ -216,6 +228,14 @@ function EducationWithSimpleState({ details,detailsData }) {
                   <TableCell align="right">{value.gender}</TableCell>
                   <TableCell align="right">{value.email}</TableCell>
                   <TableCell align="right">{value.number}</TableCell>
+                   <TableCell>
+                    <IconButton onClick={()=>handleClickOpen(value.id)}>
+                     <Update/>
+                    </IconButton>
+                    <IconButton onClick={()=>deleteHandleClickOpen(value.id)}>
+                      <Delete/>
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))
             : null}
@@ -256,99 +276,120 @@ function EducationWithSimpleState({ details,detailsData }) {
           <form onSubmit={handleSubmit} noValidate>
             {/* <DialogContent>
               <DialogContentText>Add Education</DialogContentText> */}
-              <TextField
-                fullWidth
-                label="First Name"
-                error={errors.firstName && true}
-                helperText={errors.firstName && errors.firstName}
-                margin="normal"
-                name="firstName"
-                type="text"
-                variant="outlined"
-                value={values.firstName}
-                onChange={handleChange}
-              />
-              <TextField
-                fullWidth
-                label="Last Name"
-                error={errors.lastName && true}
-                helperText={errors.lastName && errors.lastName}
-                margin="normal"
-                name="lastName"
-                type="text"
-                variant="outlined"
-                value={values.lastName}
-                onChange={handleChange}
-              />
+            <TextField
+              fullWidth
+              label="First Name"
+              error={errors.firstName && true}
+              helperText={errors.firstName && errors.firstName}
+              margin="normal"
+              name="firstName"
+              type="text"
+              variant="outlined"
+              value={values.firstName}
+              onChange={handleChange}
+            />
+            <TextField
+              fullWidth
+              label="Last Name"
+              error={errors.lastName && true}
+              helperText={errors.lastName && errors.lastName}
+              margin="normal"
+              name="lastName"
+              type="text"
+              variant="outlined"
+              value={values.lastName}
+              onChange={handleChange}
+            />
 
-              <TextField
-                fullWidth
-                label="Select Your Gender"
-                error={errors.gender && true}
-                helperText={errors.gender && errors.gender}
-                margin="normal"
-                name="gender"
-                type="text"
-                variant="outlined"
-                value={values.gender}
-                onChange={handleChange}
-              />
+            <TextField
+              fullWidth
+              label="Select Your Gender"
+              error={errors.gender && true}
+              helperText={errors.gender && errors.gender}
+              margin="normal"
+              name="gender"
+              type="text"
+              variant="outlined"
+              value={values.gender}
+              onChange={handleChange}
+            />
 
-              <TextField
-                fullWidth
-                label="Email"
-                error={errors.email && true}
-                helperText={errors.email && errors.email}
-                margin="normal"
-                name="email"
-                type="email"
-                value={values.email}
-                variant="outlined"
-                onChange={handleChange}
-              />
-              <TextField
-                fullWidth
-                label="number"
-                margin="normal"
-                error={errors.number && true}
-                helperText={errors.number && errors.number}
-                name="number"
-                type="text"
-                value={values.number}
-                variant="outlined"
-                onChange={handleChange}
-              />
+            <TextField
+              fullWidth
+              label="Email"
+              error={errors.email && true}
+              helperText={errors.email && errors.email}
+              margin="normal"
+              name="email"
+              type="email"
+              value={values.email}
+              variant="outlined"
+              onChange={handleChange}
+            />
+            <TextField
+              fullWidth
+              label="number"
+              margin="normal"
+              error={errors.number && true}
+              helperText={errors.number && errors.number}
+              name="number"
+              type="text"
+              value={values.number}
+              variant="outlined"
+              onChange={handleChange}
+            />
             {/* </DialogContent> */}
             {/* <DialogActions> */}
-              <Button type="submit" color="primary">
-                Submit
-              </Button>
-              <Button onClick={handleClose} color="primary" autoFocus>
-                Close
-              </Button>
+            <Button type="submit" color="primary">
+              Submit
+            </Button>
+            <Button onClick={handleClose} color="primary" autoFocus>
+              Close
+            </Button>
             {/* </DialogActions> */}
           </form>
         </List>
         <Divider />
-        <List>
-          {/* {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))} */}
-        </List>
+        <List></List>
       </Drawer>
+
+      {/* Delete Dialogue */}
+      <Dialog
+        open={deleteopen}
+        onClose={deleteHandleClickClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Delete?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are You Sure You Want to Delete?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={deleteHandleClickClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleDelete} color="primary">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
 
-const mapStateToProps=(state)=>({
-  detailsData:state.details.userDetails
-})
-
-const mapDispatchToProps=dispatch=>({
-  details:userDetails=>dispatch(addDetails(userDetails))
+const mapStateToProps = (state) => ({
+  detailsData: state.details.userDetails,
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(EducationWithSimpleState);
+const mapDispatchToProps = (dispatch) => ({
+  details: (userDetails) => dispatch(addDetails(userDetails)),
+  editDetails: (userDetails) => dispatch(editDetails(userDetails)),
+  deleteDetails: (userDetails) => dispatch(deleteDetails(userDetails)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EducationWithSimpleState);
