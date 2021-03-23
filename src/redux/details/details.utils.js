@@ -1,6 +1,11 @@
 
 export const deleteDetails=(state,id)=>{
-    const mainData= state.filter(value=>value.id!==id);
+    console.log("DELETE STARTED.:",id);
+    const mainData= state.filter(value=>{
+        console.log("VALUE:",value.id!==id);
+        return value.id!==id
+    });
+    console.log("MAINDATA:",mainData);
     return mainData;
 }
 

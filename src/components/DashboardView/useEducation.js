@@ -8,6 +8,7 @@ const useEducation = (
   deleteDetails
 ) => {
   const [values, setValue] = useState({
+    id:"",
     firstName: "",
     lastName: "",
     gender: "",
@@ -73,10 +74,11 @@ const useEducation = (
     if (Object.keys(errors).length === 0 && isSubmitting) {
       console.log("VALUE:", values);
       // setStoreValue(storeValue=>storeValue.concat(values))
+      values.id=Math.random();
       detailsData(values);
       setIsSubmitting(false);
       setValue({
-        id:Math.random,
+        id:'',
         firstName: "",
         lastName: "",
         gender: "",

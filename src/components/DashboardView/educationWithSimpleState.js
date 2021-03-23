@@ -26,11 +26,9 @@ import validateInfo from "./validateInfo";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { connect } from "react-redux";
-import { addDetails } from "./../../redux/details/detail.actions";
-import { editDetails } from "../../redux/details/details.utils";
-import { deleteDetails } from "./../../redux/details/details.utils";
+import { addDetails, deleteDetails,editDetails } from "./../../redux/details/detail.actions";
+// import { editDetails } from "../../redux/details/details.utils";
 import { Delete, Update } from "@material-ui/icons";
-
 
 const drawerWidth = 440;
 
